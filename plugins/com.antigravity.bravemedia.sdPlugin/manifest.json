@@ -1,0 +1,49 @@
+{
+  "SDKVersion": 2,
+  "UUID": "com.antigravity.bravemedia",
+  "Name": "Brave Media Player",
+  "Author": "Antigravity",
+  "Description": "Zobrazuje právě přehrávanou skladbu z prohlížeče Brave v reálném čase přes Windows SMTC a umožňuje ovládání (1x/2x/3x stisk, dlouhé podržení, otáčení knobu).",
+  "Category": "Brave Media",
+  "CategoryIcon": "static/icon.png",
+  "Icon": "static/icon.png",
+  "CodePath": "plugin/index.js",
+  "CodePathWin": "plugin/index.js",
+  "Version": "1.1.0",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "3.10.188.226"
+  },
+  "Nodejs": {
+    "Version": "20"
+  },
+  "Actions": [
+    {
+      "Icon": "static/icon.png",
+      "Name": "Brave Media Ovladač",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/btn_default.png",
+          "TitleAlignment": "center",
+          "FontSize": "10"
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Knob",
+        "Information"
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": true,
+      "Tooltip": "Skladba a hlasitost Brave (1x/2x/3x stisk, dlouhé podržení, otáčení knobu)",
+      "UUID": "com.antigravity.bravemedia.nowplaying",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    }
+  ]
+}

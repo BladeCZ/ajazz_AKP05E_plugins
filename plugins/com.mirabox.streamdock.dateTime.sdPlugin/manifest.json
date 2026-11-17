@@ -1,0 +1,47 @@
+{
+  "Actions": [
+    {
+      "UUID": "com.mirabox.streamdock.dateTime.action1",
+      "Icon": "images/icon",
+      "state": 0,
+      "States": [
+        {
+          "FontSize": "12",
+          "TitleAlignment": "center",
+          "Image": "images/default.png"
+        }
+      ],
+      "Settings": {},
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Controllers": [
+        "Keypad",
+        "Information"
+      ],
+      "Name": "DateTime",
+      "Tooltip": "DateTime",
+      "PropertyInspectorPath": "index.html"
+    }
+  ],
+  "Version": "2.0.0",
+  "APIVersion": "1.0",
+  "Name": "DateTime",
+  "Icon": "images/icon",
+  "CategoryIcon": "images/icon",
+  "Category": "DateTime",
+  "Description": "DateTime",
+  "CodePath": "index.html",
+  "SDKVersion": 1,
+  "Author": "MiraBox",
+  "URL": "http://video.hotspotek.com.cn/",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "7"
+    }
+  ]
+}

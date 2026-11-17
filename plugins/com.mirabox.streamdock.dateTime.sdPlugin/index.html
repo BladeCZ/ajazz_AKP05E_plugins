@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stream Dock DateTime</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        color: #e2e8f0;
+        background-color: #202024;
+        padding: 10px 14px;
+        user-select: none;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #18181b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #3f3f46;
+        border-radius: 3px;
+      }
+
+      /* Preview Widget */
+      .preview-container {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: #18181b;
+        border: 1px solid #27272a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin-bottom: 12px;
+      }
+      .preview-tile {
+        width: 68px;
+        height: 68px;
+        border-radius: 10px;
+        background: #101014;
+        border: 1.5px solid #38bdf8;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 3px;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .preview-tile .p-line {
+        line-height: 1.25;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 100%;
+        transition: all 0.15s ease;
+      }
+      .preview-info {
+        flex: 1;
+      }
+      .preview-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 3px;
+      }
+      .preview-desc {
+        font-size: 11px;
+        color: #94a3b8;
+        line-height: 1.35;
+      }
+
+      /* Form Elements */
+      .form-group {
+        margin-bottom: 11px;
+      }
+      .form-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        color: #cbd5e1;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
+      }
+      .form-control {
+        width: 100%;
+        background-color: #27272a;
+        color: #f8fafc;
+        border: 1px solid #3f3f46;
+        border-radius: 6px;
+        padding: 6px 9px;
+        font-size: 12px;
+        outline: none;
+        transition: border-color 0.15s ease;
+      }
+      .form-control:focus {
+        border-color: #38bdf8;
+      }
+
+      /* Mode Tabs */
+      .tabs {
+        display: flex;
+        background: #18181b;
+        border-radius: 6px;
+        padding: 3px;
+        gap: 3px;
+        margin-bottom: 12px;
+        border: 1px solid #27272a;
+      }
+      .tab-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        padding: 6px 4px;
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        text-align: center;
+      }
+      .tab-btn.active {
+        background: #38bdf8;
+        color: #0f172a;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Token Buttons */
+      .token-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 6px;
+      }
+      .token-btn {
+        background: #27272a;
+        border: 1px solid #3f3f46;
+        color: #38bdf8;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.12s ease;
+        font-family: inherit;
+      }
+      .token-btn:hover {
+        background: #38bdf8;
+        color: #0f172a;
+        border-color: #38bdf8;
+      }
+
+      /* Checkbox */
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        cursor: pointer;
+      }
+      .checkbox-row input {
+        cursor: pointer;
+        width: 15px;
+        height: 15px;
+        accent-color: #38bdf8;
+      }
+      .checkbox-label {
+        font-size: 12px;
+        color: #e2e8f0;
+      }
+
+      /* Row grids */
+      .row-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      /* Card styling */
+      .section-card {
+        background: #18181b;
+        border: 1px solid #27272a;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 12px;
+      }
+      .section-card-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: #cbd5e1;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .line-config-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 7px;
+      }
+      .line-config-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #94a3b8;
+        width: 58px;
+        flex-shrink: 0;
+      }
+    </style>
+    <script>
+      // Immediate global registration functions for Stream Dock
+      window.connectSDSocket = function() {
+        if (window.__handleConnect) {
+          window.__handleConnect.apply(null, arguments);
+        } else {
+          window.__pendingConnectArgs = arguments;
+        }
+      };
+      window.connectSocket = window.connectSDSocket;
+      window.connectElgatoStreamDeckSocket = window.connectSDSocket;
+      window.connectMiraBoxSDSocket = window.connectSDSocket;
+    </script>
+  </head>
+  <body>
+    <!-- PROPERTY INSPECTOR UI (Shown only when in PI mode) -->
+    <div id="pi-app" style="display: none;">
+      <!-- Live Preview -->
+      <div class="preview-container">
+        <div class="preview-tile" id="previewTile"></div>
+        <div class="preview-info">
+          <div class="preview-title" id="lblPreviewTitle">Živý náhled tlačítka</div>
+          <div class="preview-desc" id="lblPreviewDesc">Zobrazuje přesný čas a datum podle zvolených voleb níže.</div>
+        </div>
+      </div>
+
+      <!-- Mode Selector -->
+      <div class="tabs">
+        <button class="tab-btn active" id="tabPreset" onclick="setMode('preset')">⚡ Rychlé předvolby</button>
+        <button class="tab-btn" id="tabLines" onclick="setMode('lines')">🧱 Skládání řádků</button>
+        <button class="tab-btn" id="tabCustom" onclick="setMode('custom')">🛠️ Vlastní šablona</button>
+      </div>
+
+      <!-- SECTION 1: PRESETS -->
+      <div id="sectionPreset" class="form-group">
+        <label class="form-label" id="lblPreset">Vyberte předvolbu formátu</label>
+        <select class="form-control" id="selectPreset" onchange="onPresetChange()">
+          <optgroup label="🇨🇿 České standardní formáty">
+            <option value="cz_time_date">Čas (24h) + Datum (15:30:45 / 17. 11. 2026)</option>
+            <option value="cz_time_date_short">Čas (HH:MM) + Datum (15:30 / 17. 11.)</option>
+            <option value="cz_full">Den + Čas + Datum (Úterý / 15:30 / 17. 11.)</option>
+            <option value="cz_full_short">Zkráceně (Út 17.11. / 15:30)</option>
+            <option value="cz_time_sec">Pouze čas s vteřinami (15:30:45)</option>
+            <option value="cz_time_min">Pouze čas bez vteřin (15:30)</option>
+            <option value="cz_date">Pouze datum (17. 11. 2026)</option>
+            <option value="cz_date_short">Pouze datum zkrácené (17. 11.)</option>
+            <option value="cz_day_long">Celý den v týdnu (Pondělí, Úterý...)</option>
+            <option value="cz_day_short">Zkratka dne (Po, Út, St...)</option>
+            <option value="cz_month_year">Měsíc a rok (Listopad 2026)</option>
+          </optgroup>
+          <optgroup label="🌐 Mezinárodní a původní formáty">
+            <option value="date_time_no_am">Datum + Čas bez AM/PM (původní)</option>
+            <option value="default">Datum a čas výchozí (US)</option>
+            <option value="time_24">Čas 24h (HH:MM:SS)</option>
+            <option value="time_no_s_24">Čas 24h bez vteřin (HH:MM)</option>
+            <option value="time_no_s">Čas 12h s AM/PM</option>
+            <option value="time">Čas 12h s vteřinami (US)</option>
+            <option value="date">Pouze datum US (MM/DD/YYYY)</option>
+            <option value="date_no_year">Datum bez roku US (MM/DD)</option>
+            <option value="colon">Pouze dvojtečka</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <!-- SECTION 2: LINE COMPOSER -->
+      <div id="sectionLines" class="form-group" style="display: none;">
+        <div class="form-group">
+          <label class="form-label" id="lblLine1">1. řádek (Nahoře)</label>
+          <select class="form-control" id="selectLine1" onchange="onLineChange()">
+            <option value="none">-- Prázdný / Žádný --</option>
+            <option value="time_hm" selected>Čas HH:MM (15:30)</option>
+            <option value="time_hms">Čas HH:MM:SS (15:30:45)</option>
+            <option value="day_name">Den v týdnu celý (Úterý)</option>
+            <option value="day_short">Zkratka dne (Út)</option>
+            <option value="date_cz_short">Datum D. M. (17. 11.)</option>
+            <option value="date_cz">Datum D. M. YYYY (17. 11. 2026)</option>
+            <option value="date_cz_pad">Datum DD.MM.YYYY (17.11.2026)</option>
+            <option value="day_num">Den v měsíci číslem (17)</option>
+            <option value="month_name">Měsíc slovně (Listopad)</option>
+            <option value="month_short">Měsíc zkratka (Lis)</option>
+            <option value="year">Rok (2026)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="lblLine2">2. řádek (Uprostřed)</label>
+          <select class="form-control" id="selectLine2" onchange="onLineChange()">
+            <option value="none">-- Prázdný / Žádný --</option>
+            <option value="time_hm">Čas HH:MM (15:30)</option>
+            <option value="time_hms">Čas HH:MM:SS (15:30:45)</option>
+            <option value="day_name">Den v týdnu celý (Úterý)</option>
+            <option value="day_short">Zkratka dne (Út)</option>
+            <option value="date_cz_short" selected>Datum D. M. (17. 11.)</option>
+            <option value="date_cz">Datum D. M. YYYY (17. 11. 2026)</option>
+            <option value="date_cz_pad">Datum DD.MM.YYYY (17.11.2026)</option>
+            <option value="day_num">Den v měsíci číslem (17)</option>
+            <option value="month_name">Měsíc slovně (Listopad)</option>
+            <option value="month_short">Měsíc zkratka (Lis)</option>
+            <option value="year">Rok (2026)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="lblLine3">3. řádek (Dole)</label>
+          <select class="form-control" id="selectLine3" onchange="onLineChange()">
+            <option value="none" selected>-- Prázdný / Žádný --</option>
+            <option value="time_hm">Čas HH:MM (15:30)</option>
+            <option value="time_hms">Čas HH:MM:SS (15:30:45)</option>
+            <option value="day_name">Den v týdnu celý (Úterý)</option>
+            <option value="day_short">Zkratka dne (Út)</option>
+            <option value="date_cz_short">Datum D. M. (17. 11.)</option>
+            <option value="date_cz">Datum D. M. YYYY (17. 11. 2026)</option>
+            <option value="date_cz_pad">Datum DD.MM.YYYY (17.11.2026)</option>
+            <option value="day_num">Den v měsíci číslem (17)</option>
+            <option value="month_name">Měsíc slovně (Listopad)</option>
+            <option value="month_short">Měsíc zkratka (Lis)</option>
+            <option value="year">Rok (2026)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SECTION 3: CUSTOM PATTERN -->
+      <div id="sectionCustom" class="form-group" style="display: none;">
+        <label class="form-label" id="lblCustomPattern">Vlastní formátovací šablona</label>
+        <textarea class="form-control" id="inputPattern" rows="2" placeholder="{TIME_HM}\n{DATE_CZ_SHORT}" oninput="onCustomChange()"></textarea>
+        <div style="font-size: 10px; color: #94a3b8; margin-top: 4px;">Kliknutím na tlačítko níže vložíte token na konec šablony:</div>
+        <div class="token-container">
+          <button class="token-btn" onclick="insertToken('{TIME}')">+ Čas s vteřinami</button>
+          <button class="token-btn" onclick="insertToken('{TIME_HM}')">+ Čas HH:MM</button>
+          <button class="token-btn" onclick="insertToken('{DATE_CZ}')">+ Datum (17. 11. 2026)</button>
+          <button class="token-btn" onclick="insertToken('{DATE_CZ_SHORT}')">+ Datum (17. 11.)</button>
+          <button class="token-btn" onclick="insertToken('{dddd}')">+ Den v týdnu</button>
+          <button class="token-btn" onclick="insertToken('{ddd}')">+ Zkratka dne</button>
+          <button class="token-btn" onclick="insertToken('{MMMM}')">+ Měsíc slovně</button>
+          <button class="token-btn" onclick="insertToken('{YYYY}')">+ Rok</button>
+          <button class="token-btn" onclick="insertToken('\\n')">+ Nový řádek</button>
+        </div>
+      </div>
+
+      <!-- SECTION: FONT SIZES & COLORS PER LINE -->
+      <div class="section-card">
+        <div class="section-card-title">
+          <span>📏 Velikost písma a barva pro každý řádek</span>
+        </div>
+
+        <!-- Line 1 styling -->
+        <div class="line-config-row">
+          <div class="line-config-label">1. řádek:</div>
+          <select class="form-control" style="flex: 1;" id="selectSize1" onchange="onTypographyChange()">
+            <option value="auto">Auto velikost</option>
+            <option value="12">12 px (velmi malé)</option>
+            <option value="14">14 px (malé)</option>
+            <option value="16">16 px (normální)</option>
+            <option value="18">18 px (střední)</option>
+            <option value="20">20 px</option>
+            <option value="22">22 px</option>
+            <option value="24">24 px (velké)</option>
+            <option value="26">26 px</option>
+            <option value="28">28 px (velmi velké)</option>
+            <option value="30">30 px</option>
+            <option value="32">32 px (extra velké)</option>
+            <option value="36">36 px (masivní)</option>
+            <option value="40">40 px (max)</option>
+          </select>
+          <select class="form-control" style="width: 105px;" id="selectColor1" onchange="onTypographyChange()">
+            <option value="auto">Auto barva</option>
+            <option value="#ffffff">⚪ Bílá</option>
+            <option value="#38bdf8">🔵 Tyrkys</option>
+            <option value="#4ade80">🟢 Zelená</option>
+            <option value="#facc15">🟡 Žlutá</option>
+            <option value="#fb923c">🟠 Oranž</option>
+            <option value="#f87171">🔴 Červená</option>
+            <option value="#94a3b8">🔘 Šedá</option>
+          </select>
+        </div>
+
+        <!-- Line 2 styling -->
+        <div class="line-config-row">
+          <div class="line-config-label">2. řádek:</div>
+          <select class="form-control" style="flex: 1;" id="selectSize2" onchange="onTypographyChange()">
+            <option value="auto">Auto velikost</option>
+            <option value="12">12 px (velmi malé)</option>
+            <option value="14">14 px (malé)</option>
+            <option value="16">16 px (normální)</option>
+            <option value="18">18 px (střední)</option>
+            <option value="20">20 px</option>
+            <option value="22">22 px</option>
+            <option value="24">24 px (velké)</option>
+            <option value="26">26 px</option>
+            <option value="28">28 px (velmi velké)</option>
+            <option value="30">30 px</option>
+            <option value="32">32 px (extra velké)</option>
+            <option value="36">36 px (masivní)</option>
+            <option value="40">40 px (max)</option>
+          </select>
+          <select class="form-control" style="width: 105px;" id="selectColor2" onchange="onTypographyChange()">
+            <option value="auto">Auto barva</option>
+            <option value="#ffffff">⚪ Bílá</option>
+            <option value="#38bdf8">🔵 Tyrkys</option>
+            <option value="#4ade80">🟢 Zelená</option>
+            <option value="#facc15">🟡 Žlutá</option>
+            <option value="#fb923c">🟠 Oranž</option>
+            <option value="#f87171">🔴 Červená</option>
+            <option value="#94a3b8">🔘 Šedá</option>
+          </select>
+        </div>
+
+        <!-- Line 3 styling -->
+        <div class="line-config-row" style="margin-bottom: 0;">
+          <div class="line-config-label">3. řádek:</div>
+          <select class="form-control" style="flex: 1;" id="selectSize3" onchange="onTypographyChange()">
+            <option value="auto">Auto velikost</option>
+            <option value="12">12 px (velmi malé)</option>
+            <option value="14">14 px (malé)</option>
+            <option value="16">16 px (normální)</option>
+            <option value="18">18 px (střední)</option>
+            <option value="20">20 px</option>
+            <option value="22">22 px</option>
+            <option value="24">24 px (velké)</option>
+            <option value="26">26 px</option>
+            <option value="28">28 px (velmi velké)</option>
+            <option value="30">30 px</option>
+            <option value="32">32 px (extra velké)</option>
+            <option value="36">36 px (masivní)</option>
+            <option value="40">40 px (max)</option>
+          </select>
+          <select class="form-control" style="width: 105px;" id="selectColor3" onchange="onTypographyChange()">
+            <option value="auto">Auto barva</option>
+            <option value="#ffffff">⚪ Bílá</option>
+            <option value="#38bdf8">🔵 Tyrkys</option>
+            <option value="#4ade80">🟢 Zelená</option>
+            <option value="#facc15">🟡 Žlutá</option>
+            <option value="#fb923c">🟠 Oranž</option>
+            <option value="#f87171">🔴 Červená</option>
+            <option value="#94a3b8">🔘 Šedá</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- GLOBAL OPTIONS -->
+      <div class="row-grid" style="margin-top: 12px; border-top: 1px solid #27272a; padding-top: 10px;">
+        <div class="form-group">
+          <label class="form-label" id="lblLang">Jazyk názvů</label>
+          <select class="form-control" id="selectLang" onchange="onSettingChange()">
+            <option value="cs">🇨🇿 Čeština</option>
+            <option value="en">🇬🇧 English</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="lblStyle">Styl zobrazení</label>
+          <select class="form-control" id="selectStyle" onchange="onSettingChange()">
+            <option value="svg">🖼️ Ostrá SVG grafika</option>
+            <option value="text">📝 Text Stream Docku</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="chkFlash" onchange="onSettingChange()" />
+        <label for="chkFlash" class="checkbox-label" id="lblFlash">Blikat dvojtečkou času každou sekundu</label>
+      </div>
+    </div>
+
+    <!-- MAIN SCRIPT (Handles both Plugin Backend & Property Inspector) -->
+    <script>
+      const CZECH_DAYS_LONG = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
+      const CZECH_DAYS_SHORT = ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'];
+      const CZECH_MONTHS_LONG = [
+        'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen',
+        'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'
+      ];
+      const CZECH_MONTHS_SHORT = ['Led', 'Úno', 'Bře', 'Dub', 'Kvě', 'Čvn', 'Čvc', 'Srp', 'Zář', 'Říj', 'Lis', 'Pro'];
+
+      const EN_DAYS_LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const EN_DAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const EN_MONTHS_LONG = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      const EN_MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      /** Core date & time formatter with Czech and custom composing support */
+      function formatDateTime(date, settings, isTickAlternate = false) {
+        const s = settings || {};
+        const lang = s.lang || 'cs';
+        const isCs = lang === 'cs';
+
+        const daysLong = isCs ? CZECH_DAYS_LONG : EN_DAYS_LONG;
+        const daysShort = isCs ? CZECH_DAYS_SHORT : EN_DAYS_SHORT;
+        const monthsLong = isCs ? CZECH_MONTHS_LONG : EN_MONTHS_LONG;
+        const monthsShort = isCs ? CZECH_MONTHS_SHORT : EN_MONTHS_SHORT;
+
+        const year = date.getFullYear();
+        const yearShort = String(year).slice(-2);
+        const monthNum = date.getMonth() + 1;
+        const monthPad = String(monthNum).padStart(2, '0');
+        const dayNum = date.getDate();
+        const dayPad = String(dayNum).padStart(2, '0');
+        const dayOfWeek = date.getDay();
+
+        const hours24 = date.getHours();
+        const hours24Pad = String(hours24).padStart(2, '0');
+        const hours12 = hours24 % 12 || 12;
+        const hours12Pad = String(hours12).padStart(2, '0');
+        const ampm = hours24 < 12 ? 'AM' : 'PM';
+        const ampmCs = hours24 < 12 ? 'dop.' : 'odp.';
+        const minutes = date.getMinutes();
+        const minutesPad = String(minutes).padStart(2, '0');
+        const seconds = date.getSeconds();
+        const secondsPad = String(seconds).padStart(2, '0');
+
+        const flash = Boolean(s.flash);
+        const colon = flash && isTickAlternate ? ' ' : ':';
+
+        const tokenMap = {
+          '{HH}': hours24Pad,
+          '{H}': String(hours24),
+          '{hh}': hours12Pad,
+          '{h}': String(hours12),
+          '{mm}': minutesPad,
+          '{m}': String(minutes),
+          '{ss}': secondsPad,
+          '{s}': String(seconds),
+          '{colon}': colon,
+          '{TIME}': `${hours24Pad}${colon}${minutesPad}${colon}${secondsPad}`,
+          '{TIME_HM}': `${hours24Pad}${colon}${minutesPad}`,
+          '{DD}': dayPad,
+          '{D}': String(dayNum),
+          '{MM}': monthPad,
+          '{M}': String(monthNum),
+          '{YYYY}': String(year),
+          '{YY}': yearShort,
+          '{DATE_CZ}': `${dayNum}. ${monthNum}. ${year}`,
+          '{DATE_CZ_PAD}': `${dayPad}.${monthPad}.${year}`,
+          '{DATE_CZ_SHORT}': `${dayNum}. ${monthNum}.`,
+          '{DATE_CZ_SHORT_PAD}': `${dayPad}.${monthPad}.`,
+          '{dddd}': daysLong[dayOfWeek],
+          '{ddd}': daysShort[dayOfWeek],
+          '{MMMM}': monthsLong[date.getMonth()],
+          '{MMM}': monthsShort[date.getMonth()],
+          '{A}': ampm,
+          '{a}': isCs ? ampmCs : ampm.toLowerCase(),
+          '\\n': '\n',
+          '{NL}': '\n',
+        };
+
+        const mode = s.mode || (s.select && s.select !== 'custom' && s.select !== 'lines' ? 'preset' : 'preset');
+
+        if (mode === 'custom' && s.pattern) {
+          let result = s.pattern;
+          for (const [k, v] of Object.entries(tokenMap)) {
+            result = result.split(k).join(v);
+          }
+          return result;
+        }
+
+        if (mode === 'lines') {
+          const l1 = resolveLineToken(s.line1 || 'time_hm', tokenMap);
+          const l2 = resolveLineToken(s.line2 || 'date_cz_short', tokenMap);
+          const l3 = resolveLineToken(s.line3 || 'none', tokenMap);
+          return [l1, l2, l3].filter(Boolean).join('\n');
+        }
+
+        // Preset mode:
+        const sel = s.select || 'cz_time_date';
+        switch (sel) {
+          case 'cz_time_date':
+            return `${hours24Pad}${colon}${minutesPad}${colon}${secondsPad}\n${dayNum}. ${monthNum}. ${year}`;
+          case 'cz_time_date_short':
+            return `${hours24Pad}${colon}${minutesPad}\n${dayNum}. ${monthNum}.`;
+          case 'cz_full':
+            return `${daysLong[dayOfWeek]}\n${hours24Pad}${colon}${minutesPad}\n${dayNum}. ${monthNum}.`;
+          case 'cz_full_short':
+            return `${daysShort[dayOfWeek]} ${dayNum}.${monthNum}.\n${hours24Pad}${colon}${minutesPad}`;
+          case 'cz_time_sec':
+            return `${hours24Pad}${colon}${minutesPad}${colon}${secondsPad}`;
+          case 'cz_time_min':
+            return `${hours24Pad}${colon}${minutesPad}`;
+          case 'cz_date':
+            return `${dayNum}. ${monthNum}. ${year}`;
+          case 'cz_date_short':
+            return `${dayNum}. ${monthNum}.`;
+          case 'cz_day_long':
+            return daysLong[dayOfWeek];
+          case 'cz_day_short':
+            return daysShort[dayOfWeek];
+          case 'cz_month_year':
+            return `${monthsLong[date.getMonth()]}\n${year}`;
+          case 'date':
+            return isCs ? `${dayNum}. ${monthNum}. ${year}` : date.toLocaleDateString('en-US');
+          case 'date_time_no_am':
+            return isCs
+              ? `${dayNum}. ${monthNum}. ${year}\n${hours24Pad}${colon}${minutesPad}${colon}${secondsPad}`
+              : date.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(', ', '\n');
+          case 'date_no_year':
+            return isCs ? `${dayNum}. ${monthNum}.` : date.toLocaleDateString('en-US').replace(/\/\d{4}$/, '');
+          case 'time':
+            return isCs ? `${hours24Pad}${colon}${minutesPad}${colon}${secondsPad}` : date.toLocaleTimeString('en-US');
+          case 'time_24':
+            return `${hours24Pad}${colon}${minutesPad}${colon}${secondsPad}`;
+          case 'time_no_s':
+            return `${hours12Pad}${colon}${minutesPad} ${ampm}`;
+          case 'time_no_s_24':
+            return `${hours24Pad}${colon}${minutesPad}`;
+          case 'time_no_s_am':
+            return `${hours12Pad}${colon}${minutesPad}`;
+          case 'week':
+            return daysLong[dayOfWeek];
+          case 'day':
+            return dayPad;
+          case 'month':
+            return monthPad;
+          case 'month_name':
+            return monthsLong[date.getMonth()];
+          case 'month_sx':
+            return monthsShort[date.getMonth()];
+          case 'year':
+            return String(year);
+          case 'h12':
+            return hours12Pad;
+          case 'h24':
+            return hours24Pad;
+          case 'm':
+            return minutesPad;
+          case 's':
+            return secondsPad;
+          case 'am':
+            return ampm;
+          case 'colon':
+            return colon;
+          case 'default':
+          default:
+            return isCs
+              ? `${dayNum}. ${monthNum}. ${year}\n${hours24Pad}${colon}${minutesPad}${colon}${secondsPad}`
+              : `${date.toLocaleDateString()}\n${date.toLocaleTimeString('en-US')}`;
+        }
+      }
+
+      function resolveLineToken(val, tokenMap) {
+        switch (val) {
+          case 'none': return '';
+          case 'time_hms':
+          case 'time':
+          case 'time_24':
+            return tokenMap['{TIME}'];
+          case 'time_hm':
+          case 'time_no_s':
+          case 'time_no_s_24':
+            return tokenMap['{TIME_HM}'];
+          case 'day_name':
+          case 'day_long':
+          case 'day_name_long':
+          case 'week':
+            return tokenMap['{dddd}'];
+          case 'day_short':
+          case 'day_name_short':
+            return tokenMap['{ddd}'];
+          case 'date_cz':
+          case 'date':
+            return tokenMap['{DATE_CZ}'];
+          case 'date_cz_pad':
+            return tokenMap['{DATE_CZ_PAD}'];
+          case 'date_cz_short':
+          case 'date_no_year':
+            return tokenMap['{DATE_CZ_SHORT}'];
+          case 'day_num':
+          case 'day':
+            return tokenMap['{DD}'];
+          case 'month_name':
+          case 'month_long':
+            return tokenMap['{MMMM}'];
+          case 'month_short':
+          case 'month_sx':
+            return tokenMap['{MMM}'];
+          case 'month_num':
+          case 'month':
+            return tokenMap['{MM}'];
+          case 'year':
+            return tokenMap['{YYYY}'];
+          default:
+            return '';
+        }
+      }
+
+      /** Draws a crisp high-contrast 144x144 SVG tile with customizable per-line font sizes & colors */
+      function drawDateSvg(textLines, settings) {
+        const s = settings || {};
+        const rawLines = String(textLines).split('\n').filter(l => l.trim() !== '');
+        const lines = rawLines.length > 0 ? rawLines : ['--:--'];
+        const count = lines.length;
+
+        // Auto font sizes:
+        let autoSizes = [24];
+        if (count === 1) autoSizes = [32];
+        else if (count === 2) autoSizes = [26, 20];
+        else if (count >= 3) autoSizes = [18, 24, 17];
+
+        const sizes = [
+          s.size1 && s.size1 !== 'auto' ? parseInt(s.size1, 10) : autoSizes[0],
+          s.size2 && s.size2 !== 'auto' ? parseInt(s.size2, 10) : (autoSizes[1] || 20),
+          s.size3 && s.size3 !== 'auto' ? parseInt(s.size3, 10) : (autoSizes[2] || 16),
+        ];
+
+        const customColors = [s.color1, s.color2, s.color3];
+
+        // Total text block height: sum(sizes[0..count-1]) + sum(gaps)
+        let totalHeight = 0;
+        const gap = count === 3 ? 5 : (count === 2 ? 8 : 0);
+        for (let i = 0; i < Math.min(count, 3); i++) {
+          totalHeight += sizes[i];
+          if (i > 0) totalHeight += gap;
+        }
+
+        const topY = Math.max(12, (144 - totalHeight) / 2);
+        let currY = topY;
+        const yBaselines = [];
+        for (let i = 0; i < Math.min(count, 3); i++) {
+          currY += sizes[i];
+          yBaselines.push(currY);
+          currY += gap;
+        }
+
+        let textSvg = '';
+        for (let i = 0; i < Math.min(count, 3); i++) {
+          const fs = sizes[i];
+          const y = yBaselines[i];
+          const isPrimary = i === (count === 2 ? 0 : (count === 3 ? 1 : 0));
+          const defaultFill = isPrimary ? '#ffffff' : '#94a3b8';
+          const fill = (customColors[i] && customColors[i] !== 'auto') ? customColors[i] : defaultFill;
+          const weight = isPrimary || fs >= 22 ? '800' : '700';
+
+          textSvg += `<text x="72" y="${y}" font-family="Segoe UI,Arial,sans-serif" font-size="${fs}" font-weight="${weight}" text-anchor="middle" fill="${fill}" stroke="#000000" stroke-width="2.5" paint-order="stroke fill">${escapeXml(lines[i])}</text>`;
+        }
+
+        return (
+          `<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 144 144">` +
+          `<rect width="144" height="144" fill="#101014"/>` +
+          `<rect x="4" y="4" width="136" height="136" rx="14" fill="none" stroke="#262a36" stroke-width="2"/>` +
+          textSvg +
+          `</svg>`
+        );
+      }
+
+      function escapeXml(unsafe) {
+        return String(unsafe).replace(/[<>&'"]/g, c => {
+          switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+          }
+        });
+      }
+
+      // ==========================================
+      // DISPATCHER: Plugin vs Property Inspector
+      // ==========================================
+      let initialized = false;
+
+      function handleConnect(inPort, inUUID, inRegisterEvent, inInfo, inActionInfo) {
+        if (initialized) return;
+        initialized = true;
+
+        let info = inInfo;
+        let actionInfo = inActionInfo;
+        try {
+          if (typeof info === 'string') info = JSON.parse(info);
+        } catch {}
+        try {
+          if (typeof actionInfo === 'string') actionInfo = JSON.parse(actionInfo);
+        } catch {}
+
+        window.argv = [inPort, inUUID, inRegisterEvent, info, actionInfo];
+
+        const isPI = Boolean(actionInfo) || inRegisterEvent === 'registerPropertyInspector';
+        if (isPI) {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => initPropertyInspector());
+          } else {
+            initPropertyInspector();
+          }
+        } else {
+          initPluginBackend();
+        }
+      }
+
+      window.__handleConnect = handleConnect;
+      window.connectSDSocket = function() {
+        handleConnect(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
+      };
+      window.connectSocket = window.connectSDSocket;
+      window.connectElgatoStreamDeckSocket = window.connectSDSocket;
+      window.connectMiraBoxSDSocket = window.connectSDSocket;
+
+      if (window.__pendingConnectArgs) {
+        handleConnect.apply(null, window.__pendingConnectArgs);
+      } else if (window.argv && window.argv.length >= 3) {
+        handleConnect(window.argv[0], window.argv[1], window.argv[2], window.argv[3], window.argv[4]);
+      }
+
+      // ------------------------------------------
+      // 1. PROPERTY INSPECTOR LOGIC
+      // ------------------------------------------
+      let piWs = null;
+      let piSettings = {
+        mode: 'preset',
+        select: 'cz_time_date',
+        line1: 'time_hm',
+        line2: 'date_cz_short',
+        line3: 'none',
+        pattern: '{TIME_HM}\n{DATE_CZ_SHORT}',
+        lang: 'cs',
+        renderStyle: 'svg',
+        flash: false,
+        size1: 'auto',
+        size2: 'auto',
+        size3: 'auto',
+        color1: 'auto',
+        color2: 'auto',
+        color3: 'auto',
+      };
+      let previewTick = false;
+
+      function initPropertyInspector() {
+        const app = document.getElementById('pi-app');
+        if (app) app.style.display = 'block';
+
+        const port = window.argv[0];
+        const uuid = window.argv[1];
+        const regEvent = window.argv[2];
+        const actionInfo = window.argv[4] || {};
+        const incomingSettings = actionInfo.payload?.settings || {};
+
+        piSettings = Object.assign({}, piSettings, incomingSettings);
+        applySettingsToUI();
+
+        piWs = new WebSocket('ws://127.0.0.1:' + port);
+        piWs.onopen = () => {
+          piWs.send(JSON.stringify({ event: regEvent, uuid }));
+        };
+        piWs.onmessage = (e) => {
+          try {
+            const msg = JSON.parse(e.data);
+            if (msg.event === 'didReceiveSettings' && msg.payload?.settings) {
+              piSettings = Object.assign({}, piSettings, msg.payload.settings);
+              applySettingsToUI();
+            } else if (msg.event === 'sendToPropertyInspector' && msg.payload?.settings) {
+              piSettings = Object.assign({}, piSettings, msg.payload.settings);
+              applySettingsToUI();
+            }
+          } catch {}
+        };
+
+        // Live Preview Tick (1000ms)
+        setInterval(updateLivePreview, 1000);
+        updateLivePreview();
+      }
+
+      function setMode(mode) {
+        piSettings.mode = mode;
+        document.getElementById('tabPreset').className = 'tab-btn' + (mode === 'preset' ? ' active' : '');
+        document.getElementById('tabLines').className = 'tab-btn' + (mode === 'lines' ? ' active' : '');
+        document.getElementById('tabCustom').className = 'tab-btn' + (mode === 'custom' ? ' active' : '');
+
+        document.getElementById('sectionPreset').style.display = mode === 'preset' ? 'block' : 'none';
+        document.getElementById('sectionLines').style.display = mode === 'lines' ? 'block' : 'none';
+        document.getElementById('sectionCustom').style.display = mode === 'custom' ? 'block' : 'none';
+
+        saveSettings();
+      }
+
+      function applySettingsToUI() {
+        const mode = piSettings.mode || 'preset';
+        setMode(mode);
+
+        document.getElementById('selectPreset').value = piSettings.select || 'cz_time_date';
+        document.getElementById('selectLine1').value = piSettings.line1 || 'time_hm';
+        document.getElementById('selectLine2').value = piSettings.line2 || 'date_cz_short';
+        document.getElementById('selectLine3').value = piSettings.line3 || 'none';
+        document.getElementById('inputPattern').value = piSettings.pattern || '{TIME_HM}\n{DATE_CZ_SHORT}';
+        document.getElementById('selectLang').value = piSettings.lang || 'cs';
+        document.getElementById('selectStyle').value = piSettings.renderStyle || 'svg';
+        document.getElementById('chkFlash').checked = Boolean(piSettings.flash);
+
+        document.getElementById('selectSize1').value = piSettings.size1 || 'auto';
+        document.getElementById('selectSize2').value = piSettings.size2 || 'auto';
+        document.getElementById('selectSize3').value = piSettings.size3 || 'auto';
+        document.getElementById('selectColor1').value = piSettings.color1 || 'auto';
+        document.getElementById('selectColor2').value = piSettings.color2 || 'auto';
+        document.getElementById('selectColor3').value = piSettings.color3 || 'auto';
+
+        updateLivePreview();
+      }
+
+      function onPresetChange() {
+        piSettings.select = document.getElementById('selectPreset').value;
+        saveSettings();
+      }
+
+      function onLineChange() {
+        piSettings.line1 = document.getElementById('selectLine1').value;
+        piSettings.line2 = document.getElementById('selectLine2').value;
+        piSettings.line3 = document.getElementById('selectLine3').value;
+        saveSettings();
+      }
+
+      function onCustomChange() {
+        piSettings.pattern = document.getElementById('inputPattern').value;
+        saveSettings();
+      }
+
+      function insertToken(token) {
+        const el = document.getElementById('inputPattern');
+        el.value += token;
+        piSettings.pattern = el.value;
+        saveSettings();
+      }
+
+      function onTypographyChange() {
+        piSettings.size1 = document.getElementById('selectSize1').value;
+        piSettings.size2 = document.getElementById('selectSize2').value;
+        piSettings.size3 = document.getElementById('selectSize3').value;
+        piSettings.color1 = document.getElementById('selectColor1').value;
+        piSettings.color2 = document.getElementById('selectColor2').value;
+        piSettings.color3 = document.getElementById('selectColor3').value;
+        // Automatically switch to SVG if not already, to ensure custom font sizes apply
+        piSettings.renderStyle = 'svg';
+        document.getElementById('selectStyle').value = 'svg';
+        saveSettings();
+      }
+
+      function onSettingChange() {
+        piSettings.lang = document.getElementById('selectLang').value;
+        piSettings.renderStyle = document.getElementById('selectStyle').value;
+        piSettings.flash = document.getElementById('chkFlash').checked;
+        saveSettings();
+      }
+
+      function saveSettings() {
+        updateLivePreview();
+        if (piWs && piWs.readyState === WebSocket.OPEN) {
+          const context = window.argv[1];
+          piWs.send(JSON.stringify({
+            event: 'setSettings',
+            context,
+            payload: piSettings,
+          }));
+        }
+      }
+
+      function updateLivePreview() {
+        const tile = document.getElementById('previewTile');
+        if (!tile) return;
+        previewTick = !previewTick;
+        const text = formatDateTime(new Date(), piSettings, previewTick);
+        const lines = text.split('\n').filter(l => l.trim() !== '');
+
+        tile.innerHTML = '';
+        const count = lines.length;
+
+        // Preview box font scaling (approx 48% of full 144px canvas)
+        let autoSizes = [13];
+        if (count === 1) autoSizes = [16];
+        else if (count === 2) autoSizes = [13, 11];
+        else if (count >= 3) autoSizes = [10, 12, 9];
+
+        const customSizes = [
+          piSettings.size1 && piSettings.size1 !== 'auto' ? Math.max(9, Math.round(parseInt(piSettings.size1, 10) * 0.48)) : autoSizes[0],
+          piSettings.size2 && piSettings.size2 !== 'auto' ? Math.max(9, Math.round(parseInt(piSettings.size2, 10) * 0.48)) : (autoSizes[1] || 11),
+          piSettings.size3 && piSettings.size3 !== 'auto' ? Math.max(9, Math.round(parseInt(piSettings.size3, 10) * 0.48)) : (autoSizes[2] || 9),
+        ];
+
+        const customColors = [piSettings.color1, piSettings.color2, piSettings.color3];
+
+        lines.forEach((line, idx) => {
+          if (idx >= 3) return;
+          const isPrimary = idx === (count === 2 ? 0 : (count === 3 ? 1 : 0));
+          const div = document.createElement('div');
+          div.className = 'p-line';
+          div.style.fontSize = customSizes[idx] + 'px';
+          div.style.fontWeight = isPrimary || customSizes[idx] >= 12 ? '800' : '600';
+          const defaultColor = isPrimary ? '#ffffff' : '#94a3b8';
+          div.style.color = (customColors[idx] && customColors[idx] !== 'auto') ? customColors[idx] : defaultColor;
+          div.textContent = line;
+          tile.appendChild(div);
+        });
+      }
+
+      // ------------------------------------------
+      // 2. PLUGIN BACKEND LOGIC
+      // ------------------------------------------
+      const instances = new Map(); // context -> { action, context, settings, timer, tick }
+
+      function initPluginBackend() {
+        const port = window.argv[0];
+        const uuid = window.argv[1];
+        const regEvent = window.argv[2];
+
+        const ws = new WebSocket('ws://127.0.0.1:' + port);
+        ws.onopen = () => {
+          ws.send(JSON.stringify({ event: regEvent, uuid }));
+        };
+
+        ws.onmessage = (e) => {
+          let msg;
+          try {
+            msg = JSON.parse(e.data);
+          } catch {
+            return;
+          }
+
+          switch (msg.event) {
+            case 'willAppear': {
+              const context = msg.context;
+              const def = {
+                mode: 'preset',
+                select: 'cz_time_date',
+                line1: 'time_hm',
+                line2: 'date_cz_short',
+                line3: 'none',
+                pattern: '{TIME_HM}\n{DATE_CZ_SHORT}',
+                lang: 'cs',
+                renderStyle: 'svg',
+                flash: false,
+                size1: 'auto',
+                size2: 'auto',
+                size3: 'auto',
+                color1: 'auto',
+                color2: 'auto',
+                color3: 'auto',
+              };
+              const settings = Object.assign({}, def, msg.payload?.settings);
+              const inst = {
+                action: msg.action,
+                context,
+                settings,
+                timer: null,
+                tick: false,
+              };
+              instances.set(context, inst);
+              startInstanceTimer(inst, ws);
+              updateButton(inst, ws);
+              break;
+            }
+            case 'willDisappear': {
+              const inst = instances.get(msg.context);
+              if (inst && inst.timer) clearInterval(inst.timer);
+              instances.delete(msg.context);
+              break;
+            }
+            case 'didReceiveSettings': {
+              const inst = instances.get(msg.context);
+              if (inst) {
+                inst.settings = Object.assign({}, inst.settings, msg.payload?.settings);
+                startInstanceTimer(inst, ws);
+                updateButton(inst, ws);
+              }
+              break;
+            }
+            case 'propertyInspectorDidAppear': {
+              const inst = instances.get(msg.context);
+              if (inst) {
+                ws.send(JSON.stringify({
+                  event: 'sendToPropertyInspector',
+                  action: inst.action,
+                  context: msg.context,
+                  payload: { settings: inst.settings },
+                }));
+              }
+              break;
+            }
+          }
+        };
+      }
+
+      function startInstanceTimer(inst, ws) {
+        if (inst.timer) clearInterval(inst.timer);
+        const interval = inst.settings.flash ? 500 : 1000;
+        inst.timer = setInterval(() => {
+          updateButton(inst, ws);
+        }, interval);
+      }
+
+      function updateButton(inst, ws) {
+        if (!inst || !ws || ws.readyState !== WebSocket.OPEN) return;
+        const s = inst.settings || {};
+        inst.tick = !inst.tick;
+        const formatted = formatDateTime(new Date(), s, inst.tick);
+
+        if (s.renderStyle === 'text') {
+          // Native Stream Dock text mode
+          ws.send(JSON.stringify({
+            event: 'setImage',
+            context: inst.context,
+            payload: { target: 0, image: 'images/default.png' },
+          }));
+          ws.send(JSON.stringify({
+            event: 'setTitle',
+            context: inst.context,
+            payload: { target: 0, title: formatted },
+          }));
+        } else {
+          // Default: Crisp Vector SVG with custom font sizes & colors
+          const svg = drawDateSvg(formatted, s);
+          const image = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svg);
+          ws.send(JSON.stringify({
+            event: 'setImage',
+            context: inst.context,
+            payload: { target: 0, image },
+          }));
+          ws.send(JSON.stringify({
+            event: 'setTitle',
+            context: inst.context,
+            payload: { target: 0, title: '' },
+          }));
+        }
+      }
+    </script>
+  </body>
+</html>

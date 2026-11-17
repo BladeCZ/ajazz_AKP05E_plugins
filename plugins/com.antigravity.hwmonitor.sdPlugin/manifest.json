@@ -1,0 +1,159 @@
+{
+  "SDKVersion": 2,
+  "UUID": "com.antigravity.hwmonitor",
+  "Name": "HW Monitor Pro",
+  "Author": "Antigravity",
+  "Description": "Multi-senzorové hardwarové karty s popisky a živými grafy pro CPU, GPU (AMD ADL2), DDR5 RAM teploty, disky a síť.",
+  "Category": "HW Monitor Pro",
+  "CategoryIcon": "images/icon",
+  "Icon": "images/icon",
+  "CodePath": "plugin/index.js",
+  "CodePathWin": "plugin/index.js",
+  "Version": "1.0.0",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "2.9.121"
+  },
+  "Nodejs": {
+    "Version": "20"
+  },
+  "Actions": [
+    {
+      "Icon": "images/cpu",
+      "Name": "CPU Přehled (Multi)",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "images/cpu",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Information",
+        "SecondaryScreen"
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "CPU vytížení, teplota, výkon (W) a takt s živým grafem",
+      "UUID": "com.antigravity.hwmonitor.cpu",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/gpu",
+      "Name": "GPU Přehled (Multi)",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "images/gpu",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Information",
+        "SecondaryScreen"
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "GPU vytížení, teplota, příkon (W) a takt jádra (AMD ADL2)",
+      "UUID": "com.antigravity.hwmonitor.gpu",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/vram",
+      "Name": "GPU VRAM & Fan",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "images/vram",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Information",
+        "SecondaryScreen"
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Obsazená VRAM, teplota HotSpot/pamětí a otáčky ventilátoru",
+      "UUID": "com.antigravity.hwmonitor.vram",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/ram",
+      "Name": "RAM & DDR5 Teplota",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "images/ram",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Information",
+        "SecondaryScreen"
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Využití RAM (% a GB), teplota DDR5 modulů, příkon DDR5 a takt",
+      "UUID": "com.antigravity.hwmonitor.ram",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/net",
+      "Name": "Disky & Síť",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "images/net",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Information",
+        "SecondaryScreen"
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Rychlost sítě (DL/UL) a aktivita / teplota disků",
+      "UUID": "com.antigravity.hwmonitor.storage",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/custom",
+      "Name": "Vlastní Multi-Senzor",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "images/custom",
+          "TitleAlignment": "middle",
+          "FontSize": "10"
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Information",
+        "SecondaryScreen"
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Plně nastavitelná karta až se 4 libovolnými senzory a živým grafem",
+      "UUID": "com.antigravity.hwmonitor.custom",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    }
+  ]
+}

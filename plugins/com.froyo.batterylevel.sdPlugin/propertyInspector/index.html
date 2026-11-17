@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <title>Device Battery - Nastavení</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 10px 12px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 12px;
+      color: #e2e8f0;
+      background: #23262e;
+    }
+    .card {
+      background: #1b1e24;
+      border: 1px solid #323744;
+      border-radius: 8px;
+      padding: 9px 11px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      background: #22c55e;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    p {
+      margin: 3px 0 0 0;
+      line-height: 1.4;
+      color: #cbd5e1;
+      font-size: 11px;
+    }
+    .row {
+      margin-bottom: 8px;
+    }
+    .row:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #f8fafc;
+      font-size: 11px;
+    }
+    select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #3f4656;
+      background: #12141a;
+      color: #ffffff;
+      font-size: 12px;
+      outline: none;
+    }
+    select:focus {
+      border-color: #38bdf8;
+    }
+    .hint {
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Battery Settings Header -->
+  <div class="card" id="batteryHeaderCard">
+    <span class="badge">DEVICE BATTERY</span>
+    <p>Zobrazuje stav baterie v reálném čase pro <strong>SteelSeries Arctis Nova 5</strong>, <strong>Ajazz AJ179 PRO</strong> a <strong>Xbox ovladač</strong>. Na jednom tlačítku můžete mít i dvě nebo tři zařízení najednou.</p>
+  </div>
+
+  <!-- Battery Devices Card -->
+  <div class="card" id="batteryDevicesCard">
+    <div class="row">
+      <label for="device1">1. Zařízení (Nahoře / Vlevo)</label>
+      <select id="device1">
+        <option value="headset">Sluchátka (SteelSeries Arctis Nova 5 / 7+)</option>
+        <option value="mouse">Myš (Ajazz AJ179 PRO / Logitech)</option>
+        <option value="gamepad">Gamepad (Xbox Controller XInput)</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="device2">2. Zařízení (Dole / Vpravo)</label>
+      <select id="device2">
+        <option value="none">-- Žádné (Pouze 1 zařízení) --</option>
+        <option value="mouse">Myš (Ajazz AJ179 PRO / Logitech)</option>
+        <option value="headset">Sluchátka (SteelSeries Arctis Nova 5 / 7+)</option>
+        <option value="gamepad">Gamepad (Xbox Controller XInput)</option>
+      </select>
+      <div class="hint">Pro kombinaci sluchátek a myši vyberte jako 2. zařízení Myš.</div>
+    </div>
+
+    <div class="row">
+      <label for="layout">Rozvržení tlačítka (Styl)</label>
+      <select id="layout">
+        <option value="auto">Auto (Dva řádky pro 2 zařízení, jinak velké)</option>
+        <option value="dual_horiz">Dva řádky nad sebou (Velká čísla 28px)</option>
+        <option value="dual_vert">Dva sloupce vedle sebe (Karty)</option>
+        <option value="single">Jedno zařízení (Velký budík 34px)</option>
+        <option value="triple">3 zařízení najednou (Sluchátka + Myš + Gamepad)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Battery Click Action Card -->
+  <div class="card" id="batteryActionCard">
+    <div class="row">
+      <label for="clickAction">Akce při stisknutí tlačítka</label>
+      <select id="clickAction">
+        <option value="refresh">Okamžitá aktualizace stavu (Vynutit odečet)</option>
+        <option value="cycle">Přepínat zobrazení (Oba / Jen sluchátka / Jen myš)</option>
+      </select>
+      <div class="hint">Při aktualizaci tlačítko okamžitě odečte stav z USB HID / donglu a krátce problikne modrý indikátor.</div>
+    </div>
+  </div>
+
+  <!-- Profile / Layer Settings Card -->
+  <div class="card" id="layerSettingsCard" style="display:none;">
+    <span class="badge" style="background:#38bdf8;">AJAZZ MOUSE PROFILE</span>
+    <p>Nastavení přepínání hardwarových profilů (Layer) pro myš <strong>Ajazz AJ179 PRO</strong>.</p>
+    <div class="row" style="margin-top:10px;">
+      <label for="maxProfiles">Počet přepínaných profilů (tlačítkem na displeji)</label>
+      <select id="maxProfiles">
+        <option value="8" selected>8 profilů (Všechny vrstvy 1 až 8 - bez omezení)</option>
+        <option value="2">2 profily (Layer 1 až 2)</option>
+        <option value="3">3 profily (Layer 1 až 3)</option>
+        <option value="4">4 profily (Layer 1 až 4)</option>
+        <option value="5">5 profilů (Layer 1 až 5)</option>
+        <option value="6">6 profilů (Layer 1 až 6)</option>
+        <option value="7">7 profilů (Layer 1 až 7)</option>
+      </select>
+      <div class="hint">Určuje, kolik vrstev myši bude tlačítko na displeji cyklovat (např. při volbě 3 se stiskem střídá Layer 1 → 2 → 3 → 1). U otočného knobu omezení neplatí a lze vždy točit přes všech 8 profilů.</div>
+    </div>
+  </div>
+
+  <script>
+    const ACTION_DEFAULTS = {
+      "com.froyo.batterylevel.combo": {
+        device1: "headset",
+        device2: "mouse",
+        layout: "dual_horiz",
+        clickAction: "refresh"
+      },
+      "com.froyo.batterylevel.headset": {
+        device1: "headset",
+        device2: "none",
+        layout: "single",
+        clickAction: "refresh"
+      },
+      "com.froyo.batterylevel.mouse": {
+        device1: "mouse",
+        device2: "none",
+        layout: "single",
+        clickAction: "refresh"
+      },
+      "com.froyo.batterylevel.gamepad": {
+        device1: "gamepad",
+        device2: "none",
+        layout: "single",
+        clickAction: "refresh"
+      },
+      "com.froyo.batterylevel.ajazzlayer": {
+        maxProfiles: "8"
+      },
+      "com.froyo.batterylevel.ajazzcomboknob": {
+        maxProfiles: "8"
+      }
+    };
+
+    const fields = {
+      device1: document.getElementById("device1"),
+      device2: document.getElementById("device2"),
+      layout: document.getElementById("layout"),
+      clickAction: document.getElementById("clickAction"),
+      maxProfiles: document.getElementById("maxProfiles")
+    };
+
+    const batteryHeaderCard = document.getElementById("batteryHeaderCard");
+    const batteryDevicesCard = document.getElementById("batteryDevicesCard");
+    const batteryActionCard = document.getElementById("batteryActionCard");
+    const layerSettingsCard = document.getElementById("layerSettingsCard");
+
+    let websocket = null;
+    let piUuid = "";
+    let currentAction = "com.froyo.batterylevel.combo";
+    let currentSettings = Object.assign({}, ACTION_DEFAULTS[currentAction]);
+
+    function updateCardVisibility() {
+      const isLayer = currentAction === "com.froyo.batterylevel.ajazzlayer" || currentAction === "com.froyo.batterylevel.ajazzcomboknob";
+      if (layerSettingsCard) layerSettingsCard.style.display = isLayer ? "block" : "none";
+      if (batteryHeaderCard) batteryHeaderCard.style.display = isLayer ? "none" : "block";
+      if (batteryDevicesCard) batteryDevicesCard.style.display = isLayer ? "none" : "block";
+      if (batteryActionCard) batteryActionCard.style.display = isLayer ? "none" : "block";
+    }
+
+    function getDefaults() {
+      return ACTION_DEFAULTS[currentAction] || ACTION_DEFAULTS["com.froyo.batterylevel.combo"];
+    }
+
+    function applySettingsToUi(s) {
+      updateCardVisibility();
+      const def = getDefaults();
+      currentSettings = Object.assign({}, def, s || {});
+      Object.keys(fields).forEach(function (k) {
+        if (fields[k]) {
+          const val = currentSettings[k] !== undefined && currentSettings[k] !== null ? String(currentSettings[k]) : (def[k] ? String(def[k]) : "");
+          if (val) fields[k].value = val;
+        }
+      });
+    }
+
+    function collectSettings() {
+      const next = {};
+      Object.keys(fields).forEach(function (k) {
+        if (fields[k]) next[k] = fields[k].value;
+      });
+      return next;
+    }
+
+    function saveSettings() {
+      currentSettings = collectSettings();
+      if (websocket && websocket.readyState === WebSocket.OPEN) {
+        websocket.send(JSON.stringify({
+          event: "setSettings",
+          context: piUuid,
+          payload: currentSettings
+        }));
+        websocket.send(JSON.stringify({
+          event: "sendToPlugin",
+          action: currentAction,
+          context: piUuid,
+          payload: { settings: currentSettings }
+        }));
+      }
+    }
+
+    Object.keys(fields).forEach(function (k) {
+      if (fields[k]) fields[k].addEventListener("change", saveSettings);
+    });
+
+    function connectElgatoStreamDeckSocket(inPort, inUUID, inRegisterEvent, inInfo, inActionInfo) {
+      piUuid = inUUID;
+      let actionInfo = {};
+      try {
+        if (typeof inActionInfo === "string") {
+          actionInfo = JSON.parse(inActionInfo || "{}");
+        } else if (typeof inActionInfo === "object" && inActionInfo !== null) {
+          actionInfo = inActionInfo;
+        }
+      } catch (e) {
+        actionInfo = {};
+      }
+
+      if (actionInfo.action) currentAction = actionInfo.action;
+      if (actionInfo.payload && actionInfo.payload.settings) {
+        applySettingsToUi(actionInfo.payload.settings);
+      } else {
+        applySettingsToUi({});
+      }
+
+      websocket = new WebSocket("ws://127.0.0.1:" + inPort);
+      websocket.onopen = function () {
+        websocket.send(JSON.stringify({ event: inRegisterEvent, uuid: piUuid }));
+        websocket.send(JSON.stringify({ event: "getSettings", context: piUuid }));
+      };
+      websocket.onmessage = function (evt) {
+        try {
+          const msg = JSON.parse(evt.data);
+          if (msg.action) currentAction = msg.action;
+          if (msg.payload && msg.payload.action) currentAction = msg.payload.action;
+          if (msg.event === "didReceiveSettings" && msg.payload && msg.payload.settings) {
+            applySettingsToUi(msg.payload.settings);
+          } else if (msg.event === "sendToPropertyInspector" && msg.payload && msg.payload.settings) {
+            applySettingsToUi(msg.payload.settings);
+          }
+        } catch (e) {}
+      };
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "com.antigravity.bravemedia",
+  "version": "1.0.0",
+  "description": "Brave browser SMTC Now Playing plugin for Ajazz Stream Dock",
+  "main": "index.js",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

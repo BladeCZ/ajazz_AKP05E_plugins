@@ -1,0 +1,158 @@
+{
+  "Actions": [
+    {
+      "Icon": "static/avatar.svg",
+      "Name": "Multi Device Battery",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/avatar.svg",
+          "TitleAlignment": "center",
+          "FontSize": "8"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Baterie pro více zařízení najednou - sluchátka, myš, gamepad (stiskem aktualizujete)",
+      "UUID": "com.froyo.batterylevel.combo",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "static/icon.svg",
+      "Name": "Arctis Nova 5 Battery",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/icon.svg",
+          "TitleAlignment": "center",
+          "FontSize": "8"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Battery level of SteelSeries Arctis Nova 5 / 7+ (press to refresh)",
+      "UUID": "com.froyo.batterylevel.headset",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "static/mouse.svg",
+      "Name": "Ajazz AJ179 PRO Battery",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/mouse.svg",
+          "TitleAlignment": "center",
+          "FontSize": "8"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Battery level of Ajazz AJ179 PRO / Logitech wireless mouse (press to refresh)",
+      "UUID": "com.froyo.batterylevel.mouse",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "static/gamepad.svg",
+      "Name": "Xbox Controller Battery",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/gamepad.svg",
+          "TitleAlignment": "center",
+          "FontSize": "8"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Tooltip": "Battery level of an Xbox controller via XInput (press to refresh)",
+      "UUID": "com.froyo.batterylevel.gamepad",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "static/mouse.svg",
+      "Name": "Ajazz Mouse DPI",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/mouse.svg",
+          "TitleAlignment": "center",
+          "FontSize": "8"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Controllers": [
+        "Keypad",
+        "Knob",
+        "Encoder"
+      ],
+      "Tooltip": "Zobrazuje a přepíná DPI myši Ajazz AJ179 PRO (otáčením knobu nebo stiskem)",
+      "UUID": "com.froyo.batterylevel.ajazzdpi"
+    },
+    {
+      "Icon": "static/mouse.svg",
+      "Name": "Ajazz Mouse Profile",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/mouse.svg",
+          "TitleAlignment": "center",
+          "FontSize": "8"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Controllers": [
+        "Keypad",
+        "Knob",
+        "Encoder"
+      ],
+      "Tooltip": "Zobrazuje a přepíná profily myši Ajazz AJ179 PRO (Layer-1 až Layer-8, tlačítkem i otočným knobem)",
+      "UUID": "com.froyo.batterylevel.ajazzlayer",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "static/mouse.svg",
+      "Name": "Ajazz Mouse DPI / Profile",
+      "DisableAutomaticStates": true,
+      "States": [
+        {
+          "Image": "static/mouse.svg",
+          "TitleAlignment": "center",
+          "FontSize": "8"
+        }
+      ],
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "Controllers": [
+        "Keypad",
+        "Knob",
+        "Encoder"
+      ],
+      "Tooltip": "Kombinovaný knob pro Ajazz AJ179 PRO: otáčením měníte DPI nebo Profil, stiskem knobu přepínáte mezi nimi",
+      "UUID": "com.froyo.batterylevel.ajazzcomboknob",
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    }
+  ],
+  "SDKVersion": 1,
+  "Author": "froyo",
+  "Name": "Device Battery",
+  "Description": "Battery level, DPI, and profile layers for SteelSeries Arctis Nova 5, Ajazz AJ179 PRO, and Xbox controller.",
+  "Icon": "static/icon.svg",
+  "Category": "Device Battery",
+  "CategoryIcon": "static/icon.svg",
+  "CodePathWin": "plugin/index.js",
+  "Version": "1.6.0",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "3.10.188.226"
+  },
+  "Nodejs": {
+    "Version": "20"
+  }
+}

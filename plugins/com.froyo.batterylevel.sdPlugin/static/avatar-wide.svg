@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#101014"/>
+  <g opacity=".6">
+    <rect x="110" y="120" width="1000" height="480" rx="80" fill="none" stroke="#fff" stroke-width="30"/>
+    <rect x="1110" y="262" width="60" height="196" rx="16" fill="#fff"/>
+  </g>
+  <rect x="163" y="173" width="894" height="374" rx="44" fill="#22c55e"/>
+  <g transform="translate(312 360) scale(2.2) translate(-72 -48)">
+    <path d="M40 58 v-5 a32 32 0 0 1 64 0 v5" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <rect x="31" y="50" width="18" height="31" rx="9" fill="#fff"/>
+    <rect x="95" y="50" width="18" height="31" rx="9" fill="#fff"/>
+  </g>
+  <g transform="translate(610 360) scale(2.2) translate(-72 -48)">
+    <rect x="26" y="26" width="92" height="38" rx="19" fill="#fff"/>
+    <rect x="28" y="48" width="20" height="30" rx="10" fill="#fff" transform="rotate(20 38 63)"/>
+    <rect x="96" y="48" width="20" height="30" rx="10" fill="#fff" transform="rotate(-20 106 63)"/>
+    <rect x="39" y="41" width="20" height="7" rx="2" fill="#22c55e"/>
+    <rect x="45" y="35" width="7" height="20" rx="2" fill="#22c55e"/>
+    <circle cx="88" cy="40" r="5" fill="#22c55e"/>
+    <circle cx="99" cy="50" r="5" fill="#22c55e"/>
+  </g>
+  <g transform="translate(908 360) scale(2.2) translate(-72 -48)">
+    <rect x="48" y="14" width="48" height="68" rx="24" fill="#fff"/>
+    <rect x="48" y="44" width="48" height="4" fill="#22c55e"/>
+    <rect x="68" y="22" width="8" height="18" rx="4" fill="#22c55e"/>
+  </g>
+</svg>

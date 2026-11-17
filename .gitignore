@@ -1,0 +1,7 @@
+*.log
+*.tmp
+*.orig
+*.bak
+.DS_Store
+Thumbs.db
+Desktop.ini

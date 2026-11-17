@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <title>HW Monitor Pro - Nastavení</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 10px 12px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 12px;
+      color: #e2e8f0;
+      background: #23262e;
+    }
+    .card {
+      background: #1b1e24;
+      border: 1px solid #323744;
+      border-radius: 8px;
+      padding: 9px 11px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      background: #0284c7;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    p {
+      margin: 3px 0 0 0;
+      line-height: 1.4;
+      color: #cbd5e1;
+      font-size: 11px;
+    }
+    .row {
+      margin-bottom: 8px;
+    }
+    .row:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #f8fafc;
+      font-size: 11px;
+    }
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 5px 7px;
+      border-radius: 6px;
+      border: 1px solid #3f4656;
+      background: #12141a;
+      color: #ffffff;
+      font-size: 12px;
+      outline: none;
+    }
+    input[type="text"]:focus,
+    select:focus {
+      border-color: #38bdf8;
+    }
+    .btn-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+    button {
+      background: #2d3444;
+      color: #e2e8f0;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #3b4459;
+      border-color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">HW MONITOR PRO</span>
+    <p>Zobrazuje více senzorů najednou s popisky a živým grafem (CPU, GPU přes AMD ADL2, DDR5 RAM teploty, disky a síť). Krátkým stiskem tlačítka můžete styl karty přepínat živě na displeji.</p>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <label for="title">Nadpis karty (Popis)</label>
+      <input id="title" type="text" maxlength="16" placeholder="Např. CPU 9800X3D" />
+    </div>
+
+    <div class="row">
+      <label for="style">Styl karty (Rozložení &amp; Graf)</label>
+      <select id="style">
+        <option value="multi_graph">Multi-Senzor + Živý graf (3–4 hodnoty + graf)</option>
+        <option value="gauge_multi">Kruhový budík (Gauge) + 2–3 podhodnoty</option>
+        <option value="quad_grid">Mřížka 2×2 (4 senzory s popisky)</option>
+        <option value="bars_triple">3–4 řádky s progress bary</option>
+        <option value="big_clean">Velké číslo + velký graf (1–2 senzory)</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="theme">Barevné téma</label>
+      <select id="theme">
+        <option value="auto">Auto podle zátěže / teploty</option>
+        <option value="cyan">Cyan / Modrá</option>
+        <option value="amd">AMD Červená</option>
+        <option value="emerald">Zelená (Emerald)</option>
+        <option value="purple">Cyberpunk Fialová</option>
+        <option value="amber">Zlatá / Oranžová</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="textStrokeWidth">Černý obrys textu</label>
+      <select id="textStrokeWidth">
+        <option value="0">Vypnuto (0 px)</option>
+        <option value="2">Jemný (2 px)</option>
+        <option value="3">Výrazný (3 px - výchozí)</option>
+        <option value="4">Silný (4 px)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <label for="metric1">Hlavní senzor (Velká hodnota &amp; Graf)</label>
+      <select id="metric1"></select>
+    </div>
+
+    <div class="row">
+      <label for="metric2">2. senzor (Vpravo nahoře / Podhodnota 1)</label>
+      <select id="metric2"></select>
+    </div>
+
+    <div class="row">
+      <label for="metric3">3. senzor (Vlevo dole / Podhodnota 2)</label>
+      <select id="metric3"></select>
+    </div>
+
+    <div class="row">
+      <label for="metric4">4. senzor (Vpravo dole / Podhodnota 3)</label>
+      <select id="metric4"></select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <label for="clickAction">Akce při stisknutí tlačítka</label>
+      <select id="clickAction">
+        <option value="cycle">Přepnout styl karty (Graf / Budík / Mřížka)</option>
+        <option value="taskmgr">Otevřít Správce úloh (Task Manager)</option>
+        <option value="none">Žádná akce</option>
+      </select>
+    </div>
+    <div class="btn-row">
+      <button type="button" id="resetBtn">Výchozí nastavení akce</button>
+    </div>
+  </div>
+
+  <script>
+    const METRIC_GROUPS = [
+      {
+        label: "CPU (Ryzen)",
+        items: [
+          ["cpu_usage", "CPU Vytížení (%)"],
+          ["cpu_util", "CPU Utility (%)"],
+          ["cpu_temp", "CPU Teplota (°C)"],
+          ["cpu_power", "CPU Výkon (W)"],
+          ["cpu_clock", "CPU Takt (GHz / MHz)"],
+          ["cpu_volt", "CPU Napětí (Vcore)"]
+        ]
+      },
+      {
+        label: "GPU (AMD Radeon ADL2)",
+        items: [
+          ["gpu_usage", "GPU Jádro Vytížení (%)"],
+          ["gpu_temp", "GPU Teplota Edge (°C)"],
+          ["gpu_hotspot", "GPU HotSpot Teplota (°C)"],
+          ["gpu_mem_temp", "GPU Paměť Teplota (°C)"],
+          ["gpu_power", "GPU Příkon TBP (W)"],
+          ["gpu_clock", "GPU Takt jádra (MHz)"],
+          ["gpu_mem_clock", "GPU Takt paměti (MHz)"],
+          ["gpu_mem_ctrl", "GPU Řadič paměti (%)"],
+          ["gpu_fan_rpm", "GPU Ventilátor (RPM)"],
+          ["gpu_fan_pct", "GPU Ventilátor (%)"],
+          ["gpu_volt", "GPU Napětí (V)"],
+          ["vram_used_gb", "GPU VRAM Obsazeno (GB)"],
+          ["vram_pct", "GPU VRAM Využití (%)"]
+        ]
+      },
+      {
+        label: "RAM & DDR5",
+        items: [
+          ["ram_pct", "RAM Využití (%)"],
+          ["ram_used_gb", "RAM Obsazeno (GB)"],
+          ["ram_free_gb", "RAM Volná (GB)"],
+          ["ddr_temp", "DDR5 RAM Teplota (°C max)"],
+          ["ddr_temp1", "DDR5 DIMM #1 Teplota (°C)"],
+          ["ddr_temp2", "DDR5 DIMM #3 Teplota (°C)"],
+          ["ddr_power", "DDR5 Příkon modulů (W)"],
+          ["ddr_mts", "DDR5 Rychlost (MT/s)"]
+        ]
+      },
+      {
+        label: "Základní deska",
+        items: [
+          ["vrm_temp", "VRM Napájení Teplota (°C)"],
+          ["mb_temp", "Základní deska Teplota (°C)"],
+          ["chipset_temp", "Chipset B850 Teplota (°C)"]
+        ]
+      },
+      {
+        label: "Disky & Síť",
+        items: [
+          ["net_dl_kbs", "Síť Download (KB/s / MB/s)"],
+          ["net_ul_kbs", "Síť Upload (KB/s / MB/s)"],
+          ["net_total_mbps", "Síť Celkem (Mbps)"],
+          ["disk_pct", "Disk Aktivita (%)"],
+          ["disk_read_mb", "Disk Čtení (MB/s)"],
+          ["disk_write_mb", "Disk Zápis (MB/s)"],
+          ["ssd_c_temp", "SSD [C:] Teplota (°C)"],
+          ["ssd_f_temp", "SSD [F:] Teplota (°C)"],
+          ["c_free_gb", "Disk [C:] Volné místo (GB)"]
+        ]
+      }
+    ];
+
+    const ACTION_DEFAULTS = {
+      "com.antigravity.hwmonitor.cpu": {
+        title: "CPU 9800X3D",
+        style: "multi_graph",
+        theme: "auto",
+        metric1: "cpu_usage",
+        metric2: "cpu_temp",
+        metric3: "cpu_power",
+        metric4: "cpu_clock",
+        clickAction: "cycle",
+        textStrokeWidth: "3"
+      },
+      "com.antigravity.hwmonitor.gpu": {
+        title: "GPU 9070XT",
+        style: "multi_graph",
+        theme: "auto",
+        metric1: "gpu_usage",
+        metric2: "gpu_temp",
+        metric3: "gpu_power",
+        metric4: "gpu_clock",
+        clickAction: "cycle",
+        textStrokeWidth: "3"
+      },
+      "com.antigravity.hwmonitor.vram": {
+        title: "VRAM & FAN",
+        style: "quad_grid",
+        theme: "amd",
+        metric1: "vram_used_gb",
+        metric2: "gpu_hotspot",
+        metric3: "gpu_mem_temp",
+        metric4: "gpu_fan_rpm",
+        clickAction: "cycle",
+        textStrokeWidth: "3"
+      },
+      "com.antigravity.hwmonitor.ram": {
+        title: "RAM DDR5",
+        style: "bars_triple",
+        theme: "emerald",
+        metric1: "ram_pct",
+        metric2: "ram_used_gb",
+        metric3: "ddr_temp",
+        metric4: "ddr_power",
+        clickAction: "cycle",
+        textStrokeWidth: "3"
+      },
+      "com.antigravity.hwmonitor.storage": {
+        title: "SÍŤ & DISK",
+        style: "quad_grid",
+        theme: "purple",
+        metric1: "net_dl_kbs",
+        metric2: "net_ul_kbs",
+        metric3: "ssd_c_temp",
+        metric4: "c_free_gb",
+        clickAction: "cycle",
+        textStrokeWidth: "3"
+      },
+      "com.antigravity.hwmonitor.custom": {
+        title: "SYSTÉM",
+        style: "gauge_multi",
+        theme: "cyan",
+        metric1: "cpu_temp",
+        metric2: "gpu_temp",
+        metric3: "ddr_temp",
+        metric4: "vrm_temp",
+        clickAction: "cycle",
+        textStrokeWidth: "3"
+      }
+    };
+
+    function populateMetricSelect(selectEl, allowNone) {
+      selectEl.innerHTML = "";
+      if (allowNone) {
+        const opt = document.createElement("option");
+        opt.value = "none";
+        opt.textContent = "-- Skrytý / Nepoužít --";
+        selectEl.appendChild(opt);
+      }
+      METRIC_GROUPS.forEach(function (grp) {
+        const og = document.createElement("optgroup");
+        og.label = grp.label;
+        grp.items.forEach(function (pair) {
+          const opt = document.createElement("option");
+          opt.value = pair[0];
+          opt.textContent = pair[1];
+          og.appendChild(opt);
+        });
+        selectEl.appendChild(og);
+      });
+    }
+
+    const fields = {
+      title: document.getElementById("title"),
+      style: document.getElementById("style"),
+      theme: document.getElementById("theme"),
+      textStrokeWidth: document.getElementById("textStrokeWidth"),
+      metric1: document.getElementById("metric1"),
+      metric2: document.getElementById("metric2"),
+      metric3: document.getElementById("metric3"),
+      metric4: document.getElementById("metric4"),
+      clickAction: document.getElementById("clickAction")
+    };
+
+    populateMetricSelect(fields.metric1, false);
+    populateMetricSelect(fields.metric2, true);
+    populateMetricSelect(fields.metric3, true);
+    populateMetricSelect(fields.metric4, true);
+
+    let websocket = null;
+    let piUuid = "";
+    let currentAction = "com.antigravity.hwmonitor.custom";
+    let currentSettings = Object.assign({}, ACTION_DEFAULTS[currentAction]);
+
+    function getDefaults() {
+      return ACTION_DEFAULTS[currentAction] || ACTION_DEFAULTS["com.antigravity.hwmonitor.custom"];
+    }
+
+    function applySettingsToUi(s) {
+      const def = getDefaults();
+      currentSettings = Object.assign({}, def, s || {});
+      Object.keys(fields).forEach(function (k) {
+        const val = currentSettings[k] !== undefined && currentSettings[k] !== null ? String(currentSettings[k]) : String(def[k]);
+        fields[k].value = val;
+      });
+    }
+
+    function collectSettings() {
+      const next = {};
+      Object.keys(fields).forEach(function (k) {
+        next[k] = fields[k].value;
+      });
+      return next;
+    }
+
+    function saveSettings() {
+      currentSettings = collectSettings();
+      if (websocket && websocket.readyState === WebSocket.OPEN) {
+        websocket.send(JSON.stringify({
+          event: "setSettings",
+          context: piUuid,
+          payload: currentSettings
+        }));
+        websocket.send(JSON.stringify({
+          event: "sendToPlugin",
+          action: currentAction,
+          context: piUuid,
+          payload: { settings: currentSettings }
+        }));
+      }
+    }
+
+    Object.keys(fields).forEach(function (k) {
+      const el = fields[k];
+      el.addEventListener("change", saveSettings);
+      if (el.tagName === "INPUT") {
+        el.addEventListener("input", saveSettings);
+      }
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", function () {
+      applySettingsToUi(getDefaults());
+      saveSettings();
+    });
+
+    function connectElgatoStreamDeckSocket(inPort, inUUID, inRegisterEvent, inInfo, inActionInfo) {
+      piUuid = inUUID;
+      try {
+        const actionInfo = JSON.parse(inActionInfo || "{}");
+        if (actionInfo.action) currentAction = actionInfo.action;
+        if (actionInfo.payload && actionInfo.payload.settings) {
+          applySettingsToUi(actionInfo.payload.settings);
+        } else {
+          applySettingsToUi({});
+        }
+      } catch (e) {
+        applySettingsToUi({});
+      }
+
+      websocket = new WebSocket("ws://127.0.0.1:" + inPort);
+      websocket.onopen = function () {
+        websocket.send(JSON.stringify({ event: inRegisterEvent, uuid: piUuid }));
+        websocket.send(JSON.stringify({ event: "getSettings", context: piUuid }));
+      };
+      websocket.onmessage = function (evt) {
+        try {
+          const msg = JSON.parse(evt.data);
+          if (msg.event === "didReceiveSettings" && msg.payload && msg.payload.settings) {
+            applySettingsToUi(msg.payload.settings);
+          } else if (msg.event === "sendToPropertyInspector" && msg.payload && msg.payload.settings) {
+            applySettingsToUi(msg.payload.settings);
+          }
+        } catch (e) {}
+      };
+    }
+  </script>
+</body>
+</html>

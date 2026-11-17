@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <title>Brave Media Ovladač - Nastavení</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 10px 12px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 12px;
+      color: #e2e8f0;
+      background: #23262e;
+    }
+    .card {
+      background: #1b1e24;
+      border: 1px solid #323744;
+      border-radius: 8px;
+      padding: 9px 11px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      background: #fb542b;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    p {
+      margin: 3px 0 0 0;
+      line-height: 1.4;
+      color: #cbd5e1;
+      font-size: 11px;
+    }
+    .row {
+      margin-bottom: 8px;
+    }
+    .row:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #f8fafc;
+      font-size: 11px;
+    }
+    select {
+      width: 100%;
+      padding: 5px 7px;
+      border-radius: 6px;
+      border: 1px solid #3f4656;
+      background: #12141a;
+      color: #ffffff;
+      font-size: 12px;
+      outline: none;
+    }
+    select:focus {
+      border-color: #fb542b;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">BRAVE MEDIA OVLADAČ</span>
+    <p>Zobrazuje skladbu, časovou osu, hlasitost i obal alba z Brave každé 2 s. Podporuje 1×/2×/3× stisk a otáčení knobu.</p>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <label for="displayMode">Režim zobrazení</label>
+      <select id="displayMode">
+        <option value="svg">Dynamická SVG karta (setImage)</option>
+        <option value="title">Textový titulek (setTitle)</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="showThumbnail">Obal alba na pozadí</label>
+      <select id="showThumbnail">
+        <option value="true">Zapnuto (výchozí)</option>
+        <option value="false">Vypnuto</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="overlayOpacity">Ztmavení obalu alba</label>
+      <select id="overlayOpacity">
+        <option value="0.30">Jemné (30 %)</option>
+        <option value="0.45">Střední (45 % - výchozí)</option>
+        <option value="0.65">Silné (65 %)</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="textStrokeWidth">Černý obrys textu</label>
+      <select id="textStrokeWidth">
+        <option value="0">Vypnuto (0 px)</option>
+        <option value="2">Jemný (2 px)</option>
+        <option value="3">Výrazný (3 px - výchozí)</option>
+        <option value="4">Silný (4 px)</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="stripArtist">Odstranit interpreta ze začátku názvu</label>
+      <select id="stripArtist">
+        <option value="true">Zapnuto (výchozí)</option>
+        <option value="false">Vypnuto</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <label for="knobMode">Otáčení knobu</label>
+      <select id="knobMode">
+        <option value="volume">Měnit hlasitost aplikace Brave</option>
+        <option value="track">Přepínat skladby (Další / Předchozí)</option>
+        <option value="none">Vypnuto</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="volumeStep">Krok hlasitosti</label>
+      <select id="volumeStep">
+        <option value="2">2 %</option>
+        <option value="5">5 %</option>
+        <option value="10">10 %</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <label for="pressAction">1× stisk (Krátký stisk)</label>
+      <select id="pressAction">
+        <option value="playpause">Play / Pause</option>
+        <option value="next">Další skladba</option>
+        <option value="prev">Předchozí skladba</option>
+        <option value="mute">Mute Brave</option>
+        <option value="none">Vypnuto</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="doublePressAction">2× stisk (Dvojklik)</label>
+      <select id="doublePressAction">
+        <option value="next">Další skladba (výchozí)</option>
+        <option value="prev">Předchozí skladba</option>
+        <option value="mute">Mute Brave</option>
+        <option value="playpause">Play / Pause</option>
+        <option value="none">Vypnuto</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="triplePressAction">3× stisk (Trojklik)</label>
+      <select id="triplePressAction">
+        <option value="prev">Předchozí skladba (výchozí)</option>
+        <option value="next">Další skladba</option>
+        <option value="mute">Mute Brave</option>
+        <option value="playpause">Play / Pause</option>
+        <option value="none">Vypnuto</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="longPressAction">Dlouhé podržení (pouze LCD tlačítka, knob podporuje 1×/2×/3× klik)</label>
+      <select id="longPressAction">
+        <option value="mute">Mute Brave (výchozí)</option>
+        <option value="next">Další skladba</option>
+        <option value="prev">Předchozí skladba</option>
+        <option value="playpause">Play / Pause</option>
+        <option value="none">Vypnuto</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="multiPressDelay">Rychlost dvojkliku</label>
+      <select id="multiPressDelay">
+        <option value="250">Rychlá (250 ms)</option>
+        <option value="350">Standardní (350 ms)</option>
+        <option value="450">Delší (450 ms)</option>
+      </select>
+    </div>
+  </div>
+
+  <script>
+    let websocket = null;
+    let piUuid = "";
+    const defaults = {
+      displayMode: "svg",
+      showThumbnail: "true",
+      overlayOpacity: "0.45",
+      textStrokeWidth: "3",
+      stripArtist: "true",
+      knobMode: "volume",
+      volumeStep: "5",
+      pressAction: "playpause",
+      doublePressAction: "next",
+      triplePressAction: "prev",
+      longPressAction: "mute",
+      multiPressDelay: "350"
+    };
+    let currentSettings = Object.assign({}, defaults);
+
+    const fields = {
+      displayMode: document.getElementById("displayMode"),
+      showThumbnail: document.getElementById("showThumbnail"),
+      overlayOpacity: document.getElementById("overlayOpacity"),
+      textStrokeWidth: document.getElementById("textStrokeWidth"),
+      stripArtist: document.getElementById("stripArtist"),
+      knobMode: document.getElementById("knobMode"),
+      volumeStep: document.getElementById("volumeStep"),
+      pressAction: document.getElementById("pressAction"),
+      doublePressAction: document.getElementById("doublePressAction"),
+      triplePressAction: document.getElementById("triplePressAction"),
+      longPressAction: document.getElementById("longPressAction"),
+      multiPressDelay: document.getElementById("multiPressDelay")
+    };
+
+    function applySettingsToUi(s) {
+      currentSettings = Object.assign({}, defaults, s || {});
+      Object.keys(fields).forEach(function (k) {
+        fields[k].value = String(currentSettings[k] !== undefined ? currentSettings[k] : defaults[k]);
+      });
+    }
+
+    function saveSettings() {
+      const next = {};
+      Object.keys(fields).forEach(function (k) {
+        next[k] = fields[k].value;
+      });
+      currentSettings = next;
+      if (websocket && websocket.readyState === WebSocket.OPEN) {
+        websocket.send(JSON.stringify({
+          event: "setSettings",
+          context: piUuid,
+          payload: currentSettings
+        }));
+      }
+    }
+
+    Object.values(fields).forEach(function (el) {
+      el.addEventListener("change", saveSettings);
+    });
+
+    function connectElgatoStreamDeckSocket(inPort, inUUID, inRegisterEvent, inInfo, inActionInfo) {
+      piUuid = inUUID;
+      try {
+        const actionInfo = JSON.parse(inActionInfo || "{}");
+        if (actionInfo.payload && actionInfo.payload.settings) {
+          applySettingsToUi(actionInfo.payload.settings);
+        } else {
+          applySettingsToUi({});
+        }
+      } catch (e) {
+        applySettingsToUi({});
+      }
+
+      websocket = new WebSocket("ws://127.0.0.1:" + inPort);
+      websocket.onopen = function () {
+        websocket.send(JSON.stringify({ event: inRegisterEvent, uuid: piUuid }));
+        websocket.send(JSON.stringify({ event: "getSettings", context: piUuid }));
+      };
+      websocket.onmessage = function (evt) {
+        try {
+          const msg = JSON.parse(evt.data);
+          if (msg.event === "didReceiveSettings" && msg.payload && msg.payload.settings) {
+            applySettingsToUi(msg.payload.settings);
+          }
+        } catch (e) {}
+      };
+    }
+  </script>
+</body>
+</html>
