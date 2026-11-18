@@ -1,0 +1,334 @@
+{
+  "SDKVersion": 2,
+  "UUID": "com.loading.sonar-control",
+  "Author": "F3VS",
+  "Name": "SteelSeries Sonar Control",
+  "Icon": "images/plugin.png",
+  "CodePath": "plugin/index.js",
+  "CodePathWin": "plugin/index.js",
+  "Description": "SteelSeries GG Sonar mixer control for Stream Dock / AJAZZ AKP05E.",
+  "Category": "SteelSeries Sonar",
+  "CategoryIcon": "images/plugin.png",
+  "Version": "1.1.0",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "3.10.188.226"
+  },
+  "Nodejs": {
+    "Version": "20"
+  },
+  "Actions": [
+    {
+      "Icon": "images/status.png",
+      "Name": "Sonar Status",
+      "Tooltip": "Show Sonar connection and current mode",
+      "UUID": "com.loading.sonar-control.status",
+      "States": [
+        {
+          "Image": "images/status.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/status.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Information"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/volume.png",
+      "Name": "Channel Volume",
+      "Tooltip": "Adjust channel volume; dial press toggles mute or cycles channels",
+      "UUID": "com.loading.sonar-control.volume",
+      "States": [
+        {
+          "Image": "images/volume.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/volume.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Encoder",
+        "Knob"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/mute.png",
+      "Name": "Channel Mute",
+      "Tooltip": "Toggle mute for any Sonar channel",
+      "UUID": "com.loading.sonar-control.mute",
+      "States": [
+        {
+          "Image": "images/mute.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/mute.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Knob"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/setvolume.png",
+      "Name": "Set Channel Volume",
+      "Tooltip": "Set a channel to a fixed volume",
+      "UUID": "com.loading.sonar-control.setvolume",
+      "States": [
+        {
+          "Image": "images/setvolume.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/setvolume.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/device.png",
+      "Name": "Device Toggle",
+      "Tooltip": "Jedním stiskem přepíná Sonar mezi dvěma zařízeními (sluchátka / reproduktory)",
+      "UUID": "com.loading.sonar-control.devicetoggle",
+      "States": [
+        {
+          "Image": "images/device.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/device.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Knob"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/device.png",
+      "Name": "Output Device",
+      "Tooltip": "Assign an output device to a Sonar channel",
+      "UUID": "com.loading.sonar-control.device",
+      "States": [
+        {
+          "Image": "images/device.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/device.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/micdevice.png",
+      "Name": "Microphone Device",
+      "Tooltip": "Select the Sonar microphone device",
+      "UUID": "com.loading.sonar-control.micdevice",
+      "States": [
+        {
+          "Image": "images/micdevice.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/micdevice.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/chatmix.png",
+      "Name": "ChatMix",
+      "Tooltip": "Adjust the Game and Chat balance",
+      "UUID": "com.loading.sonar-control.chatmix",
+      "States": [
+        {
+          "Image": "images/chatmix.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/chatmix.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad",
+        "Encoder",
+        "Knob"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/mode.png",
+      "Name": "Streamer Mode",
+      "Tooltip": "Toggle Classic and Streamer mode",
+      "UUID": "com.loading.sonar-control.mode",
+      "States": [
+        {
+          "Image": "images/mode.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/mode.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    },
+    {
+      "Icon": "images/scene.png",
+      "Name": "Mixer Scene",
+      "Tooltip": "Capture and apply mixer scenes",
+      "UUID": "com.loading.sonar-control.scene",
+      "States": [
+        {
+          "Image": "images/scene.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/scene.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        },
+        {
+          "Image": "images/off.png",
+          "TitleAlignment": "bottom",
+          "FontSize": 11
+        }
+      ],
+      "Controllers": [
+        "Keypad"
+      ],
+      "UserTitleEnabled": true,
+      "KeyboardSupport": true,
+      "SupportedInMultiActions": true,
+      "PropertyInspectorPath": "propertyInspector/index.html"
+    }
+  ]
+}

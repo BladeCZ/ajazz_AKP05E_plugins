@@ -13,6 +13,7 @@ Všechny pluginy jsou plně lokalizované do **češtiny**, mají předpřiprave
 | 🖥️ **HW Monitor Pro** | `com.antigravity.hwmonitor.sdPlugin` | Živé sledování CPU, GPU, RAM, VRAM, disků a sítě (teploty, zátěž, takty, ventilátory, W). |
 | 🎵 **Brave Media Controller** | `com.antigravity.bravemedia.sdPlugin` | Ovládání multimédií v Brave/Chrome (název skladby, interpret, Play/Pause, Next/Prev, ovládání hlasitosti knobem). |
 | 🔋 **Ajazz & Arctis Manager** | `com.froyo.batterylevel.sdPlugin` | Stav baterie myši **Ajazz AJ179 PRO** a sluchátek **Arctis Nova 5**, přepínání **DPI**, správa **profilů/vrstev (Layers)** a sdílený knob. |
+| 🎧 **SteelSeries Sonar Control** | `com.loading.sonar-control.sdPlugin` | Ovládání virtuálního mixu SteelSeries GG Sonar (hlasitost kanálů knobem, Mute, ChatMix, přepínání zařízení, scény). |
 | 🕒 **Datum & Čas CZ** | `com.mirabox.streamdock.dateTime.sdPlugin` | Plně české datum a čas, skládání 3 nezávislých řádků, individuální volba velikosti písma (12–40 px) a barev pro každý řádek. |
 
 ---
@@ -27,6 +28,7 @@ Pokud potřebujete pouze konkrétní plugin, můžete si stáhnout samostatný `
 * 🖥️ **[com.antigravity.hwmonitor.sdPlugin.zip](zips/com.antigravity.hwmonitor.sdPlugin.zip)** (HW Monitor Pro)
 * 🎵 **[com.antigravity.bravemedia.sdPlugin.zip](zips/com.antigravity.bravemedia.sdPlugin.zip)** (Brave Media)
 * 🔋 **[com.froyo.batterylevel.sdPlugin.zip](zips/com.froyo.batterylevel.sdPlugin.zip)** (Baterie myši & sluchátek + DPI a Profily)
+* 🎧 **[com.loading.sonar-control.sdPlugin.zip](zips/com.loading.sonar-control.sdPlugin.zip)** (SteelSeries Sonar Control)
 * 🕒 **[com.mirabox.streamdock.dateTime.sdPlugin.zip](zips/com.mirabox.streamdock.dateTime.sdPlugin.zip)** (Datum a čas CZ)
 
 ---
@@ -95,7 +97,17 @@ Komplexní modul pro bezdrátové periferie a myš **Ajazz AJ179 PRO**:
 
 ---
 
-### 4. 🕒 Datum & Čas CZ (`com.mirabox.streamdock.dateTime.sdPlugin`)
+### 4. 🎧 SteelSeries Sonar Control (`com.loading.sonar-control.sdPlugin`)
+Plnohodnotná integrace virtuálního zvukového mixu **SteelSeries GG Sonar** upravená pro Stream Dock AKP05E:
+* **Hlasitost a kanály**: Nezávislé ovládání hlasitosti a Mute pro jednotlivé zvukové kanály (Master, Game, Chat, Media, Aux, Mic).
+* **Plná podpora knobů konzole AKP05E**: Otáčením otočného knobu plynule měníte hlasitost daného kanálu, stiskem knobu přepínáte ztlumení (Mute) nebo cyklujete kanály.
+* **ChatMix**: Plynulé vyvažování poměru hlasitosti hry a hlasové komunikace (Discord / TeamSpeak).
+* **Přepínání výstupů a mikrofonů**: Rychlá volba aktivního audio výstupu (sluchátka / reproduktory) a mikrofonu přímo z tlačítka na ploše.
+* **Režimy a scény**: Přepínání Classic vs Streamer módu a přepínání mixovacích profilů (scén).
+
+---
+
+### 5. 🕒 Datum & Čas CZ (`com.mirabox.streamdock.dateTime.sdPlugin`)
 Kompletně přepracovaný oficiální plugin pro zobrazení hodin a data v češtině:
 * **3 režimy zobrazení**:
   1. ⚡ **Rychlé předvolby**: Oblíbené české kombinace (Čas 24h + Datum `15:30:45 / 17. 11. 2026`, Den + Čas + Datum `Úterý / 15:30 / 17. 11.`, pouze čas, pouze datum, apod.).
